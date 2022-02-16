@@ -1,0 +1,17 @@
+[
+    {
+        "first_name": "Maija",
+        "last_name": "Mallikas",
+        "age": 22
+    },
+    {
+        "first_name": "Testi",
+        "last_name": "Testinen",
+        "age": 33
+    },
+    {
+        "first_name": "Matti",
+        "last_name": "Malli",
+        "age": 26
+    }
+]
