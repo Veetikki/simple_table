@@ -4,6 +4,7 @@ import {Row, Header} from './components/table';
 import AddButton from './components/buttons';
 import { MouseEventHandler, useCallback, useState, useEffect } from "react";
 import { RecordWithTtl } from 'dns';
+import { getJSDocDeprecatedTag } from 'typescript';
 
 interface Person {
   FNAME: string;
@@ -13,6 +14,7 @@ interface Person {
 
 function App() {
   const PEOPLE = "/api/people";
+  const [count, setCount] = useState(0);
   const [people, setPeople] = useState<Person[]>([]);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -58,18 +60,13 @@ function App() {
     })
   })
   .then(function(response){
-  console.log("POST ERROR")
   console.log(response)
-  return response.json();
-  })
-  .then(function(myJson) {
-  console.log(myJson);
-  setPeople(myJson);
+  getData();
   });
   }
 
   //post data to server
-  const handleRemove=( f:String, l:String, a:Number )=>{
+  const handleRemove= async ( f:String, l:String, a:Number )=>{
     fetch(PEOPLE
     ,{
       method: 'POST',
@@ -86,12 +83,7 @@ function App() {
     })
     .then(function(response){
     console.log(response);
-    return response.json();
-    })
-    .then(function(myJson) {
-    console.log(myJson);
-    setPeople(myJson);
-    console.log("Updating list")
+    getData();
     });
   }
 
@@ -102,12 +94,12 @@ function App() {
     <Header/>
     </thead>
     <tbody>
-    {people.map((person) => {
-        return(<Row fname={person.FNAME} lname={person.LNAME} age={person.AGE} remove={<button onClick={() => handleRemove(person.FNAME, person.LNAME, person.AGE)}>Remove</button>}/>);
+    {people.map((person, index) => {
+        return(<Row id={index} fname={person.FNAME} lname={person.LNAME} age={person.AGE} remove={<button onClick={() => handleRemove(person.FNAME, person.LNAME, person.AGE)}>Remove</button>}/>);
     })}
     </tbody>
     </table>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={() => handleSubmit()}>
     <label>
       First name:
       <input type="text" value={fname} onChange={e => setFname(e.target.value)} />

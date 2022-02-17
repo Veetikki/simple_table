@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 // Declaring type of rows
 type rowProps = {
+    id: number;
     fname: string;
     lname: string;
     age: Number;
@@ -22,8 +23,8 @@ type tableProps = {
     order: "ascn" | "desc";
 };
 
-export const Row = ({ fname, lname, age, remove }: rowProps) => 
-<tr>
+export const Row = ({id, fname, lname, age, remove }: rowProps) => 
+<tr key={id}>
     <td>{fname}</td>
     <td>{lname}</td>
     <td>{age}</td>
