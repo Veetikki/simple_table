@@ -6,6 +6,7 @@ type rowProps = {
     fname: string;
     lname: string;
     age: Number;
+    remove: object;
 };
 
 interface Person {
@@ -21,11 +22,12 @@ type tableProps = {
     order: "ascn" | "desc";
 };
 
-export const Row = ({ fname, lname, age }: rowProps) => 
+export const Row = ({ fname, lname, age, remove }: rowProps) => 
 <tr>
     <td>{fname}</td>
     <td>{lname}</td>
     <td>{age}</td>
+    <td>{remove}</td>
 </tr>
 ;
 

@@ -66,7 +66,7 @@ app.post('/api/people', (req, res) => {
       else
        {
          console.log("deleted")
-         sql = `DELETE FROM PEOPLE WHERE FNAME=? & LNAME=? & AGE = ?`;
+         sql = `DELETE FROM PEOPLE WHERE FNAME=? AND LNAME=? AND AGE = ?`;
          db.run(sql, [postData.FNAME, postData.LNAME, postData.AGE], function(err) {
           if (err) {
             return console.log(err.message);
