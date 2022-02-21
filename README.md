@@ -6,6 +6,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+Make database
+### `python createTable.py`
+
+To run app
+### `npm run dev`
+
+To run backend
+### `npm run server`
+
+To run front
 ### `npm start`
 
 Runs the app in the development mode.\

@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
   res.send('Hello world');
 });
 
-
+// get api
 app.get('/api/people', (req, res)=>{
   let db = new sqlite3.Database('people.db', (err) => {
     if(err) 
@@ -35,7 +35,7 @@ app.get('/api/people', (req, res)=>{
   db.close();
 });
 
-
+// Post data to api
 app.post('/api/people', (req, res) => {
   var postData  = req.body;
   var type = req.headers.type;
@@ -55,25 +55,36 @@ app.post('/api/people', (req, res) => {
       if(type === "INSERT")
       {
         console.log("inserted")
-        sql = `INSERT INTO PEOPLE (FNAME, LNAME, AGE) VALUES(?, ?,?)`;
-        db.run(sql, [postData.FNAME, postData.LNAME, postData.AGE], function(err) {
+        sql = `INSERT INTO PEOPLE (ID, FNAME, LNAME, AGE) VALUES(?,?,?,?)`;
+        db.run(sql, [postData.ID, postData.FNAME, postData.LNAME, postData.AGE], function(err) {
           if (err) {
             return console.log(err.message);
           }
           res.end(JSON.stringify(`Rows inserted ${this.changes}`))
         });
       }
-      else
-       {
-         console.log("deleted")
-         sql = `DELETE FROM PEOPLE WHERE FNAME=? AND LNAME=? AND AGE =?`;
-         db.run(sql, [postData.FNAME, postData.LNAME, postData.AGE], function(err) {
+      else if(type=== "UPDATE")
+      {
+        console.log("updated")
+        sql = `UPDATE PEOPLE SET FNAME = ?, LNAME = ?, AGE = ? WHERE ID = ?`;
+        db.run(sql, [postData.FNAME, postData.LNAME, postData.AGE, postData.ID], function(err) {
           if (err) {
             return console.log(err.message);
           }
-          res.end(JSON.stringify(`Rows deleted ${this.changes}`))
+          res.end(JSON.stringify(`Rows updated ${this.changes}`))
         });
-       }
+      }
+      else
+      {
+        console.log("deleted")
+        sql = `DELETE FROM PEOPLE WHERE ID=?`;
+        db.run(sql, [postData.ID], function(err) {
+        if (err) {
+          return console.log(err.message);
+        }
+        res.end(JSON.stringify(`Rows deleted ${this.changes}`))
+      });
+      }
     }
 
   });
